@@ -6,21 +6,33 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>The Bookshelf</title>
 		<link rel="stylesheet" href="./Styles/style.css" />
+		<script
+			src="https://kit.fontawesome.com/3a1e4c9014.js"
+			crossorigin="anonymous"
+		></script>
 	</head>
 	<body>
 		<header>
-			<h1>The Bookshelf</h1>
+			<h2 title="Edit Username">
+				<span class="user" title="Edit Username">Your</span> Bookshelf
+			</h2>
 			<div class="shelf-info">
-				<p class="total-books">Books on the shelf: <span>10</span></p>
-				<p class="completed-books">Completed: <span>1</span></p>
+				<p class="total-books">Total books: <span>10</span></p>
+				<p class="completed-books">Finished reading: <span>1</span></p>
+				<p class="completed-books">Unfinished: <span>1</span></p>
 			</div>
 		</header>
 		<div class="shelf">
-			<button class="book-card add-new-book" title="Add new book">+</button>
+			<div class="book-card add-new-book" title="Add a Book">+</div>
 		</div>
-		<div class="add-book-modal display-none">
+		<div class="modal add-book-modal display-none">
 			<form>
-				<h2>Add Book to the Shelf</h2>
+				<div class="head-modal">
+					<h2>Add Book to the Shelf</h2>
+					<div class="button danger-button add-book-cancel-button">
+						<i class="fas fa-times"></i>
+					</div>
+				</div>
 				<input
 					type="text"
 					name="title"
@@ -45,17 +57,57 @@
 					min="0"
 					required
 				/>
+				<input
+					type="text"
+					name="url"
+					id="book-cover"
+					placeholder="URL for Cover Image (optional)"
+					autocomplete="off"
+				/>
 				<label>
 					Completed:
-					<input type="checkbox" name="completed" id="completed-check" />
+					<input
+						type="checkbox"
+						class="checkbox"
+						name="completed"
+						id="completed-check"
+					/>
 					<div class="slider-switch"></div>
 				</label>
 				<div class="buttons-on-modal">
-					<button class="button add-book-submit-button">Submit</button>
-					<div class="button add-book-cancel-button">Cancel</div>
+					<button class="safe-button button add-book-submit-button">
+						Submit
+					</button>
 				</div>
 			</form>
 		</div>
+		<div class="modal enter-name-modal display-none">
+			<form>
+				<div class="head-modal">
+					<h2>Enter Your Name</h2>
+					<div class="button danger-button enter-name-cancel-button">
+						<i class="fas fa-times"></i>
+					</div>
+				</div>
+				<input
+					type="text"
+					name="name"
+					id="username"
+					placeholder="Enter your name"
+					autocomplete="off"
+					required
+				/>
+				<div class="buttons-on-modal">
+					<button class="safe-button button enter-name-submit-button">
+						Submit
+					</button>
+				</div>
+			</form>
+		</div>
+		<footer>
+			Designed and developed by
+			<a target="_blank" href="https:berserkwal.github.io">berserkwal</a>
+		</footer>
 		<script src="./Scripts/main.js"></script>
 	</body>
 </html>
