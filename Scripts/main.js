@@ -216,8 +216,9 @@ submitNameButton.addEventListener("click", (event) => {
 		username = usernameInput.value;
 		localStorage.setItem("username", username);
 		usernameModal.classList.add("display-none");
-		userNameOnTitle.textContent = `${username}'
-		${username[username.length - 1].toLowerCase() === "s" ? "" : "s"} Bookshelf`;
+		userNameOnTitle.textContent = `${username}'${
+			username[username.length - 1].toLowerCase() === "s" ? "" : "s"
+		} Bookshelf`;
 	}
 });
 
