@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>The Bookshelf</title>
+		<link rel="stylesheet" href="./Styles/style.css" />
+	</head>
+	<body>
+		<header>
+			<h1>The Bookshelf</h1>
+			<div class="shelf-info">
+				<p class="total-books">Books on the shelf: <span>10</span></p>
+				<p class="completed-books">Completed: <span>1</span></p>
+			</div>
+		</header>
+		<div class="shelf">
+			<button class="book-card add-new-book" title="Add new book">+</button>
+		</div>
+		<div class="add-book-modal display-none">
+			<form>
+				<h2>Add Book to the Shelf</h2>
+				<input
+					type="text"
+					name="title"
+					id="book-title"
+					placeholder="Title"
+					autocomplete="off"
+					required
+				/>
+				<input
+					type="text"
+					name="author"
+					id="book-author"
+					placeholder="Author"
+					autocomplete="off"
+					required
+				/>
+				<input
+					type="number"
+					name="pages"
+					id="book-pages"
+					placeholder="Number of Pages"
+					min="0"
+					required
+				/>
+				<label>
+					Completed:
+					<input type="checkbox" name="completed" id="completed-check" />
+					<div class="slider-switch"></div>
+				</label>
+				<div class="buttons-on-modal">
+					<button class="button add-book-submit-button">Submit</button>
+					<div class="button add-book-cancel-button">Cancel</div>
+				</div>
+			</form>
+		</div>
+		<script src="./Scripts/main.js"></script>
+	</body>
+</html>
