@@ -126,7 +126,6 @@ function clearShelf() {
 
 function readUnreadBook(item) {
 	let itemLineage = item.parentElement.parentElement.parentElement;
-	console.log(item);
 	myBookshelf[Number(itemLineage.dataset.index)].completed = item.checked;
 	if (!item.checked) {
 		myBookshelf[Number(itemLineage.dataset.index)].dateCompleted = null;
