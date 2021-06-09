@@ -298,7 +298,7 @@ input:not([type="checkbox"]):focus {
 	transition: all 0.2s linear;
 }
 
-#completed-check + .slider-switch:after {
+#completed-check + .slider-switch::after {
 	position: absolute;
 	content: "";
 	height: 1rem;
@@ -342,7 +342,7 @@ label {
 	color: var(--color-accent-complementary);
 }
 
-#completed-check:checked + .slider-switch {
+#completed-check:chekced + .slider-switch {
 	background-color: var(--color-green);
 }
 

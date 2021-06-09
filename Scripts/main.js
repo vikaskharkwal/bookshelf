@@ -214,7 +214,7 @@ submitButton.addEventListener("click", (event) => {
 	bookInfo.forEach((item) => {
 		if (item.value) args.push(item.value);
 		else {
-			if (item.name === "url") args.push(null);
+			if (item.name === "url") args.push("https://i.ibb.co/mXWLT3w/image.png");
 			return;
 		}
 	});
