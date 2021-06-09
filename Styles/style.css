@@ -91,14 +91,13 @@ footer a:hover {
 .book-card {
 	position: relative;
 	background-color: var(--color-accent);
-	/* width: 200px; */
-	/* height: 400px; */
 	padding: 1rem;
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
 	transition: all 0.2s linear;
 	flex: 0 0 300px;
+	box-shadow: 1px 1px 10px 0px rgba(0, 0, 0, 0.25);
 	overflow: hidden;
 }
 
@@ -119,8 +118,10 @@ footer a:hover {
 	height: 100%;
 	width: 100%;
 	background: center/cover var(--background);
-	transition: all 0.3s ease;
+	transition: all 0.4s linear;
 	overflow: hidden;
+	transform-origin: left;
+	background-color: var(--color-accent-complementary);
 }
 
 .read .cover-image::before {
@@ -135,7 +136,6 @@ footer a:hover {
 	border-bottom: 70px solid var(--color-green);
 	transform: rotate(45deg);
 	box-shadow: 0 0 4px 2px rgba(0, 0, 0, 0.25);
-	/* background-color: var(--color-green); */
 }
 
 .read .cover-image::after {
@@ -152,7 +152,7 @@ footer a:hover {
 
 .book-card:hover .cover-image,
 .book-card:focus-within .cover-image {
-	transform: translateX(-100%);
+	transform: scaleX(0) rotateY(180deg);
 }
 
 .cover-image img {
@@ -248,10 +248,13 @@ form {
 	display: flex;
 	flex-direction: column;
 	gap: 1rem;
+	box-shadow: 0 0 4px 0px rgba(0, 0, 0, 0.548), 0 0 20px 2px rgba(0, 0, 0, 0.25),
+		0 0 50px 0 rgba(0, 0, 0, 0.068);
 }
 
 input:not([type="checkbox"]) {
 	border: none;
+	position: relative;
 	border-bottom: 2px solid #6471869d;
 	outline: none;
 	padding-left: 0.5rem;
@@ -279,7 +282,7 @@ input:not([type="checkbox"]):focus {
 	position: relative;
 	height: 1rem;
 	width: 2rem;
-	background-color: var(--color-accent-complementary);
+	background-color: var(--color-off-white);
 	border-radius: 99vh;
 	box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.25);
 	overflow: hidden;
@@ -332,20 +335,11 @@ label {
 
 #completed-check:checked + .slider-switch {
 	background-color: var(--color-green);
-	/* animation: colorSwitch 0.2s linear forwards; */
 }
 
 #completed-check:checked + .slider-switch::after {
 	transform: translateX(100%);
-	/* animation: toggle 0.2s linear forwards; */
 }
-/* input[type="checkbox"]:checked + .slider-switch {
-	background-color: green;
-}
-
-input[type="checkbox"]:checked + .slider-switch::after {
-	left: calc(100% - 1rem);
-} */
 
 .overflow-none {
 	overflow: hidden;
@@ -353,40 +347,4 @@ input[type="checkbox"]:checked + .slider-switch::after {
 
 .display-none {
 	display: none;
-}
-
-@keyframes toggle {
-	0% {
-		transform: translateX(0%);
-	}
-	100% {
-		transform: translateX(100%);
-	}
-}
-
-@keyframes toggleRev {
-	0% {
-		transform: translateX(100%);
-	}
-	100% {
-		transform: translateX(0%);
-	}
-}
-
-@keyframes colorSwitch {
-	0% {
-		background-color: var(--color-accent-complementary);
-	}
-	100% {
-		background-color: var(--color-green);
-	}
-}
-
-@keyframes colorSwitchRev {
-	0% {
-		background-color: var(--color-green);
-	}
-	100% {
-		background-color: var(--color-accent-complementary);
-	}
 }
