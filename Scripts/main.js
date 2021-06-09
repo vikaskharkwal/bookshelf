@@ -1,5 +1,6 @@
 let myBookshelf;
 let username;
+let colorTheme;
 if (!localStorage.myBookshelf) {
 	myBookshelf = [];
 } else myBookshelf = JSON.parse(localStorage.getItem("myBookshelf"));
@@ -37,6 +38,7 @@ const addBookCompletedCheck = document.querySelector(
 const userNameOnTitle = document.querySelector(`header h2`);
 
 const shelfInfo = document.querySelectorAll(".shelf-info span");
+const darkmodeToggle = document.querySelector(".toggle-darkmode");
 
 if (!localStorage.username) {
 	usernameModal.classList.remove("display-none");
@@ -46,6 +48,26 @@ if (!localStorage.username) {
 		username[username.length - 1].toLowerCase() === "s" ? "" : "s"
 	} Bookshelf`;
 }
+
+if (!localStorage.colorTheme) {
+	colorTheme = "light";
+	localStorage.setItem("colorTheme", "light");
+} else colorTheme = localStorage.getItem("colorTheme");
+
+if (colorTheme === "dark") {
+	document.documentElement.classList.add("dark");
+	darkmodeToggle.checked = true;
+}
+
+darkmodeToggle.addEventListener("click", () => {
+	if (darkmodeToggle.checked) {
+		document.documentElement.classList.add("dark");
+		localStorage.setItem("colorTheme", "dark");
+	} else {
+		document.documentElement.classList.remove("dark");
+		localStorage.setItem("colorTheme", "light");
+	}
+});
 
 function Book(title, author, pages, url, completed) {
 	this.title = title;
@@ -192,8 +214,7 @@ submitButton.addEventListener("click", (event) => {
 	bookInfo.forEach((item) => {
 		if (item.value) args.push(item.value);
 		else {
-			if (item.name === "url")
-				args.push("https://memegenerator.net/img/images/400x/16143029.jpg");
+			if (item.name === "url") args.push(null);
 			return;
 		}
 	});

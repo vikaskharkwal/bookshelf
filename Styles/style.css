@@ -18,11 +18,12 @@
 }
 
 :root.dark {
-	--color-accent: #fff;
+	--color-accent: #b9b9cf;
+	--color-accent-lighter: #18273f;
 	--color-off-white: #e6e6e6;
 	--color-green: #bada55;
 	--color-danger: #ff7268;
-	--color-accent-complementary: #121b29;
+	--color-accent-complementary: #18273f;
 }
 
 i {
@@ -50,11 +51,17 @@ header {
 	padding: 1rem;
 	height: max-content;
 	background-color: var(--color-accent);
-	display: flex;
+	display: grid;
+	grid-template: 1fr / 1fr auto auto;
 	align-items: center;
 	justify-content: space-between;
 	font-size: 0.8rem;
 	text-align: right;
+	gap: 2rem;
+}
+
+.dark-mode-check {
+	align-self: flex-end;
 }
 
 footer {
@@ -117,11 +124,10 @@ footer a:hover {
 	left: 0;
 	height: 100%;
 	width: 100%;
-	background: center/cover var(--background);
 	transition: all 0.4s linear;
 	overflow: hidden;
 	transform-origin: left;
-	background-color: var(--color-accent-complementary);
+	background: center/cover var(--background);
 }
 
 .read .cover-image::before {
@@ -152,7 +158,7 @@ footer a:hover {
 
 .book-card:hover .cover-image,
 .book-card:focus-within .cover-image {
-	transform: scaleX(0) rotateY(180deg);
+	transform: rotateY(180deg);
 }
 
 .cover-image img {
@@ -219,6 +225,7 @@ footer a:hover {
 }
 
 header h2 {
+	text-align: left;
 	cursor: pointer;
 	position: relative;
 }
@@ -256,6 +263,8 @@ input:not([type="checkbox"]) {
 	border: none;
 	position: relative;
 	border-bottom: 2px solid #6471869d;
+	background-color: var(--color-accent-complementary);
+	color: var(--color-accent);
 	outline: none;
 	padding-left: 0.5rem;
 	padding-block: 0.25rem;
