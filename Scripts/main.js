@@ -131,10 +131,12 @@ function readUnreadBook(item) {
 		myBookshelf[Number(itemLineage.dataset.index)].dateCompleted = null;
 	} else
 		myBookshelf[Number(itemLineage.dataset.index)].dateCompleted = getDate();
+	itemLineage.querySelector(`p:last-child`).innerHTML = `<b>Finished On</b>: ${
+		myBookshelf[Number(itemLineage.dataset.index)].dateCompleted || `N/A`
+	}`;
 	localStorage.setItem("myBookshelf", JSON.stringify(myBookshelf));
+
 	updateShelfInfo();
-	clearShelf();
-	displayBooks();
 }
 
 function updateShelfInfo() {
@@ -163,7 +165,7 @@ function displayBooks() {
     </div>
     <div class="book-actions">
       <label title="Mark as read">
-				Mark as read:
+				Mark read:
         <input type="checkbox" id="completed-check" name="completed" id="completed" ${
 					item.completed ? "checked" : null
 				}/>

@@ -18,8 +18,8 @@
 }
 
 :root.dark {
-	--color-accent: #b9b9cf;
-	--color-accent-lighter: #18273f;
+	--color-accent: #7586cf;
+	--color-accent-lighter: #0c1118;
 	--color-off-white: #e6e6e6;
 	--color-green: #bada55;
 	--color-danger: #ff7268;
@@ -40,6 +40,7 @@ body {
 	grid-template: auto 1fr auto / 1fr;
 	height: 100vh;
 	user-select: none;
+	transition: all 0.4s ease;
 }
 
 h1 {
@@ -58,6 +59,7 @@ header {
 	font-size: 0.8rem;
 	text-align: right;
 	gap: 2rem;
+	transition: all 0.4s ease;
 }
 
 .dark-mode-check {
@@ -69,6 +71,7 @@ footer {
 	height: max-content;
 	background-color: var(--color-accent);
 	text-align: center;
+	transition: all 0.4s ease;
 }
 
 footer a {
@@ -79,6 +82,7 @@ footer a {
 	color: var(--color-accent);
 	padding: 0.25rem 0.5rem;
 	background-color: var(--color-accent-complementary);
+	transition: all 0.4s ease;
 }
 
 footer a:hover {
@@ -158,7 +162,8 @@ footer a:hover {
 
 .book-card:hover .cover-image,
 .book-card:focus-within .cover-image {
-	transform: rotateY(180deg);
+	/* transform: rotateY(180deg); */
+	transform: translateX(-100%);
 }
 
 .cover-image img {
@@ -217,8 +222,6 @@ footer a:hover {
 	top: 50%;
 	left: 50%;
 	transform: translate(-50%, -50%);
-
-	/* backdrop-filter: blur(20px); */
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -236,12 +239,13 @@ footer a:hover {
 
 header h2 {
 	text-align: left;
-	width: max-content;
+	width: fit-content;
 	cursor: pointer;
 	position: relative;
 }
 header h2::after {
 	content: url(../Assets/edit.svg);
+	fill: var(--color-accent);
 	position: absolute;
 	top: 0;
 	left: 100%;
@@ -268,6 +272,7 @@ form {
 	gap: 1rem;
 	box-shadow: 0 0 4px 0px rgba(0, 0, 0, 0.548), 0 0 20px 2px rgba(0, 0, 0, 0.25),
 		0 0 50px 0 rgba(0, 0, 0, 0.068);
+	z-index: 10;
 }
 
 input:not([type="checkbox"]) {
@@ -282,6 +287,10 @@ input:not([type="checkbox"]) {
 	font-family: inherit;
 	font-size: inherit;
 	transition: all 0.2s linear;
+}
+
+input:not([type="checkbox"])::placeholder {
+	color: #6b6b88;
 }
 
 input:not([type="checkbox"]):focus {
@@ -305,7 +314,7 @@ input:not([type="checkbox"]):focus {
 	background-color: var(--color-off-white);
 	border-radius: 99vh;
 	box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.25);
-	overflow: hidden;
+	/* overflow: hidden; */
 	transition: all 0.2s linear;
 }
 
@@ -353,7 +362,7 @@ label {
 	color: var(--color-accent-complementary);
 }
 
-#completed-check:chekced + .slider-switch {
+#completed-check:checked + .slider-switch {
 	background-color: var(--color-green);
 }
 
