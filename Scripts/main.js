@@ -112,9 +112,8 @@ function deleteBook(item) {
 		...myBookshelf.slice(Number(item.dataset.index) + 1),
 	];
 	localStorage.setItem("myBookshelf", JSON.stringify(myBookshelf));
+	item.remove();
 	updateShelfInfo();
-	clearShelf();
-	displayBooks();
 }
 
 function clearShelf() {
@@ -125,15 +124,19 @@ function clearShelf() {
 }
 
 function readUnreadBook(item) {
-	let itemLineage = item.parentElement.parentElement.parentElement;
-	myBookshelf[Number(itemLineage.dataset.index)].completed = item.checked;
+	let itemCard = item.parentElement.parentElement.parentElement;
+	myBookshelf[Number(itemCard.dataset.index)].completed = item.checked;
 	if (!item.checked) {
-		myBookshelf[Number(itemLineage.dataset.index)].dateCompleted = null;
-	} else
-		myBookshelf[Number(itemLineage.dataset.index)].dateCompleted = getDate();
-	itemLineage.querySelector(`p:last-child`).innerHTML = `<b>Finished On</b>: ${
-		myBookshelf[Number(itemLineage.dataset.index)].dateCompleted || `N/A`
+		myBookshelf[Number(itemCard.dataset.index)].dateCompleted = null;
+		itemCard.classList.remove("read");
+	} else {
+		myBookshelf[Number(itemCard.dataset.index)].dateCompleted = getDate();
+		itemCard.classList.add("read");
+	}
+	itemCard.querySelector(`p:last-child`).innerHTML = `<b>Finished On</b>: ${
+		myBookshelf[Number(itemCard.dataset.index)].dateCompleted || `N/A`
 	}`;
+
 	localStorage.setItem("myBookshelf", JSON.stringify(myBookshelf));
 
 	updateShelfInfo();
@@ -149,7 +152,7 @@ function updateShelfInfo() {
 		myBookshelf.length - Number(shelfInfo[1].textContent);
 }
 
-function displayBooks() {
+function renderShelf() {
 	if (myBookshelf.length) {
 		myBookshelf.forEach((item) => {
 			const node = document.createElement("div");
@@ -198,7 +201,7 @@ function closeModal() {
 }
 
 clearShelf();
-displayBooks();
+renderShelf();
 
 shelf.addEventListener("click", checkAction);
 
@@ -223,7 +226,7 @@ submitButton.addEventListener("click", (event) => {
 		new Book(...args, addBookCompletedCheck.checked);
 		closeModal();
 		clearShelf();
-		displayBooks();
+		renderShelf();
 	}
 });
 
