@@ -1,9 +1,43 @@
-let myBookshelf;
+let myBookshelf = [];
 let username;
-let colorTheme;
-if (!localStorage.myBookshelf) {
-	myBookshelf = [];
-} else myBookshelf = JSON.parse(localStorage.getItem("myBookshelf"));
+
+let gradient = `linear-gradient(to bottom, var(--color-accent-off),
+var(--color-accent));`;
+const domElements = (function () {
+	const shelf = document.querySelector(".shelf");
+	const addBookButton = document.querySelector(".add-new-book");
+	const cancelButton = document.querySelector(".add-book-cancel-button");
+	const submitButton = document.querySelector(".add-book-submit-button");
+	const addBookModal = document.querySelector(".add-book-modal");
+	const usernameModal = document.querySelector(".enter-name-modal");
+	const usernameInput = document.querySelector("#username");
+	const cancelNameButton = document.querySelector(".enter-name-cancel-button");
+	const submitNameButton = document.querySelector(".enter-name-submit-button");
+	const bookInfo = document.querySelectorAll(
+		`.add-book-modal input:not([type="checkbox"])`
+	);
+	const addBookCompletedCheck = document.querySelector(
+		`.add-book-modal input[type="checkbox"]`
+	);
+	const userNameOnTitle = document.querySelector(`header h2`);
+
+	const shelfInfo = document.querySelectorAll(".shelf-info span");
+	return {
+		shelf,
+		addBookButton,
+		cancelButton,
+		submitButton,
+		addBookModal,
+		usernameModal,
+		usernameInput,
+		cancelNameButton,
+		submitNameButton,
+		bookInfo,
+		addBookCompletedCheck,
+		userNameOnTitle,
+		shelfInfo,
+	};
+})();
 
 const MONTHS = Object.freeze([
 	"Jan",
@@ -19,69 +53,42 @@ const MONTHS = Object.freeze([
 	"Nov",
 	"Dec",
 ]);
+class Book {
+	constructor(title, author, pages, url, completed) {
+		this.title = title;
+		this.author = author;
+		this.pages = pages;
+		this.dateAdded = getDate();
+		this.completed = completed;
+		this.imgURL = url;
 
-const shelf = document.querySelector(".shelf");
-const addBookButton = document.querySelector(".add-new-book");
-const cancelButton = document.querySelector(".add-book-cancel-button");
-const submitButton = document.querySelector(".add-book-submit-button");
-const addBookModal = document.querySelector(".add-book-modal");
-const usernameModal = document.querySelector(".enter-name-modal");
-const usernameInput = document.querySelector("#username");
-const cancelNameButton = document.querySelector(".enter-name-cancel-button");
-const submitNameButton = document.querySelector(".enter-name-submit-button");
-const bookInfo = document.querySelectorAll(
-	`.add-book-modal input:not([type="checkbox"])`
-);
-const addBookCompletedCheck = document.querySelector(
-	`.add-book-modal input[type="checkbox"]`
-);
-const userNameOnTitle = document.querySelector(`header h2`);
+		if (this.completed) {
+			this.dateCompleted = getDate();
+		}
 
-const shelfInfo = document.querySelectorAll(".shelf-info span");
-const darkmodeToggle = document.querySelector(".toggle-darkmode");
+		addToBookshelf(this);
+		renderShelf();
+	}
+}
+
+if (!localStorage.myBookshelf) {
+	myBookshelf = [];
+	new Book(
+		"Kafka on the Shore",
+		"Hakura Murakami",
+		505,
+		"https://images-na.ssl-images-amazon.com/images/I/81tdbrewW0L.jpg",
+		true
+	);
+} else myBookshelf = JSON.parse(localStorage.getItem("myBookshelf"));
 
 if (!localStorage.username) {
-	usernameModal.classList.remove("display-none");
+	domElements.usernameModal.classList.remove("display-none");
 } else {
 	username = localStorage.getItem("username");
-	userNameOnTitle.textContent = `${username}'${
+	domElements.userNameOnTitle.textContent = `${username}'${
 		username[username.length - 1].toLowerCase() === "s" ? "" : "s"
 	} Bookshelf`;
-}
-
-if (!localStorage.colorTheme) {
-	colorTheme = "light";
-	localStorage.setItem("colorTheme", "light");
-} else colorTheme = localStorage.getItem("colorTheme");
-
-if (colorTheme === "dark") {
-	document.documentElement.classList.add("dark");
-	darkmodeToggle.checked = true;
-}
-
-darkmodeToggle.addEventListener("click", () => {
-	if (darkmodeToggle.checked) {
-		document.documentElement.classList.add("dark");
-		localStorage.setItem("colorTheme", "dark");
-	} else {
-		document.documentElement.classList.remove("dark");
-		localStorage.setItem("colorTheme", "light");
-	}
-});
-
-function Book(title, author, pages, url, completed) {
-	this.title = title;
-	this.author = author;
-	this.pages = pages;
-	this.dateAdded = getDate();
-	this.completed = completed;
-	this.imgURL = url;
-
-	if (this.completed) {
-		this.dateCompleted = getDate();
-	}
-
-	addToBookshelf(this);
 }
 
 function getDate() {
@@ -114,6 +121,12 @@ function deleteBook(item) {
 	localStorage.setItem("myBookshelf", JSON.stringify(myBookshelf));
 	item.remove();
 	updateShelfInfo();
+	if (!myBookshelf.length) {
+		const node = document.createElement("p");
+		node.classList.add("hint");
+		node.textContent = `Your shelf is empty, press + to add books.`;
+		domElements.shelf.append(node);
+	}
 }
 
 function clearShelf() {
@@ -143,13 +156,13 @@ function readUnreadBook(item) {
 }
 
 function updateShelfInfo() {
-	shelfInfo[0].textContent = myBookshelf.length;
-	shelfInfo[1].textContent = myBookshelf.reduce((sum, element) => {
+	domElements.shelfInfo[0].textContent = myBookshelf.length;
+	domElements.shelfInfo[1].textContent = myBookshelf.reduce((sum, element) => {
 		if (element.completed) sum++;
 		return sum;
 	}, 0);
-	shelfInfo[2].textContent =
-		myBookshelf.length - Number(shelfInfo[1].textContent);
+	domElements.shelfInfo[2].textContent =
+		myBookshelf.length - Number(domElements.shelfInfo[1].textContent);
 }
 
 function renderShelf() {
@@ -176,79 +189,83 @@ function renderShelf() {
       </label>
       <div title="Delete" class="danger-button button"><i class="far fa-trash-alt"></i></div>
 		</div>
-		<div class="cover-image" style="--background: url(${item.imgURL});"></div>`;
+		${
+			item.imgURL
+				? `<div class="cover-image" style="--background: url(${item.imgURL});"></div>`
+				: `<div class="cover-image" style="--background: ${gradient};"><h2>${item.title}</h2><p>${item.author}</p></div>`
+		}`;
 			node.classList.add("book", "book-card");
 			if (item.completed) node.classList.add("read");
 			node.dataset.index = myBookshelf.indexOf(item);
 			// shelf.insertBefore(node, addBookButton);
-			shelf.append(node);
+			domElements.shelf.append(node);
 		});
 	} else {
 		const node = document.createElement("p");
 		node.classList.add("hint");
 		node.textContent = `Your shelf is empty, press + to add books.`;
-		shelf.append(node);
+		domElements.shelf.append(node);
 	}
 }
 
 function closeModal() {
-	addBookModal.classList.add("display-none");
+	domElements.addBookModal.classList.add("display-none");
 	document.body.classList.remove("overflow-none");
-	bookInfo.forEach((item) => {
+	domElements.bookInfo.forEach((item) => {
 		item.value = "";
 	});
-	addBookCompletedCheck.checked = false;
+	domElements.addBookCompletedCheck.checked = false;
 }
 
 clearShelf();
 renderShelf();
 
-shelf.addEventListener("click", checkAction);
+domElements.shelf.addEventListener("click", checkAction);
 
-cancelButton.addEventListener("click", closeModal);
+domElements.cancelButton.addEventListener("click", closeModal);
 
-addBookButton.addEventListener("click", () => {
-	addBookModal.classList.remove("display-none");
+domElements.addBookButton.addEventListener("click", () => {
+	domElements.addBookModal.classList.remove("display-none");
 	document.body.classList.add("overflow-none");
 });
 
-submitButton.addEventListener("click", (event) => {
+domElements.submitButton.addEventListener("click", (event) => {
 	event.preventDefault();
 	let args = [];
-	bookInfo.forEach((item) => {
+	domElements.bookInfo.forEach((item) => {
 		if (item.value) args.push(item.value);
 		else {
-			if (item.name === "url") args.push("https://i.ibb.co/mXWLT3w/image.png");
+			if (item.name === "url") args.push("");
 			return;
 		}
 	});
 	if (args.length === 4) {
-		new Book(...args, addBookCompletedCheck.checked);
+		new Book(...args, domElements.addBookCompletedCheck.checked);
 		closeModal();
 		clearShelf();
 		renderShelf();
 	}
 });
 
-cancelNameButton.addEventListener("click", () => {
-	usernameInput.value = "";
-	usernameModal.classList.add("display-none");
+domElements.cancelNameButton.addEventListener("click", () => {
+	domElements.usernameInput.value = "";
+	domElements.usernameModal.classList.add("display-none");
 });
 
-submitNameButton.addEventListener("click", (event) => {
+domElements.submitNameButton.addEventListener("click", (event) => {
 	event.preventDefault();
-	if (usernameInput.value) {
-		username = usernameInput.value;
+	if (domElements.usernameInput.value) {
+		username = domElements.usernameInput.value;
 		localStorage.setItem("username", username);
-		usernameModal.classList.add("display-none");
-		userNameOnTitle.textContent = `${username}'${
+		domElements.usernameModal.classList.add("display-none");
+		domElements.userNameOnTitle.textContent = `${username}'${
 			username[username.length - 1].toLowerCase() === "s" ? "" : "s"
 		} Bookshelf`;
 	}
 });
 
-userNameOnTitle.addEventListener("click", () => {
-	usernameModal.classList.remove("display-none");
+domElements.userNameOnTitle.addEventListener("click", () => {
+	domElements.usernameModal.classList.remove("display-none");
 });
 
 updateShelfInfo();
