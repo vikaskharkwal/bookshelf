@@ -112,7 +112,7 @@ footer a:hover {
 	justify-content: space-between;
 	transition: all 0.2s linear;
 	flex: 0 0 300px;
-	/* box-shadow: 1px 1px 10px 0px rgba(0, 0, 0, 0.25); */
+	box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.342);
 	overflow: hidden;
 	border-radius: 10px;
 	background-image: linear-gradient(
